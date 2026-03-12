@@ -1,23 +1,1097 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>Earth Sciences: Surface processes and dynamics |Manudeo Singh|</title>
-  <LINK href="styles.css" rel="stylesheet" type="text/css">
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Manudeo Singh | Wetland & Dryland Remote Sensing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1c2b4a;
+    --navy-light: #2d4070;
+    --gold: #b8943f;
+    --gold-light: #d4b060;
+    --cream: #f7f2ea;
+    --cream-dark: #ede5d6;
+    --text: #2a2a2a;
+    --text-muted: #5a5a5a;
+    --text-light: #8a8a8a;
+    --white: #ffffff;
+    --border: #d6cfc4;
+    --card-bg: #ffffff;
+    --section-alt: #f0ebe1;
+  }
 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--navy);
+    border-bottom: 3px solid var(--gold);
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--cream);
+    letter-spacing: 0.03em;
+    text-decoration: none;
+  }
+  .nav-brand span { color: var(--gold-light); }
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+  }
+  .nav-links a {
+    display: block;
+    padding: 0.35rem 0.75rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(247,242,234,0.75);
+    text-decoration: none;
+    border-radius: 2px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); background: rgba(255,255,255,0.06); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--cream); border-radius: 2px; transition: 0.3s; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    padding: 5rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+  }
+  .hero-photo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-photo {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top center;
+    border: 4px solid var(--gold);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .hero-social {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-social a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.65rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    background: rgba(255,255,255,0.08);
+    color: rgba(247,242,234,0.8);
+    text-decoration: none;
+    border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: all 0.2s;
+  }
+  .hero-social a:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+  .hero-text { color: var(--cream); }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+  }
+  .hero-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 0.6rem;
+  }
+  .hero-affil {
+    font-size: 0.95rem;
+    color: rgba(247,242,234,0.7);
+    margin-bottom: 1.4rem;
+    line-height: 1.5;
+  }
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.6rem;
+  }
+  .hero-tags span {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.78rem;
+    border: 1px solid rgba(184,148,63,0.4);
+    color: var(--gold-light);
+    border-radius: 20px;
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+  }
+  .hero-fellowships {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .fellowship-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    background: rgba(184,148,63,0.15);
+    border-left: 3px solid var(--gold);
+    font-size: 0.82rem;
+    color: rgba(247,242,234,0.85);
+    border-radius: 0 2px 2px 0;
+  }
+  .fellowship-badge strong { color: var(--gold-light); }
+
+  /* ── SECTIONS ── */
+  section { padding: 4.5rem 2rem; }
+  section:nth-child(even) { background: var(--section-alt); }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 3rem;
+    align-items: start;
+  }
+  .about-text p { margin-bottom: 1rem; font-size: 1.02rem; color: #3a3028; }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-sidebar {}
+  .sidebar-block {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    padding: 1.25rem 1.4rem;
+    margin-bottom: 1.25rem;
+    border-radius: 0 0 4px 4px;
+  }
+  .sidebar-block h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 0.75rem;
+  }
+  .interest-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .interest-pill {
+    padding: 0.2rem 0.6rem;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    font-size: 0.78rem;
+    border-radius: 2px;
+    color: var(--navy-light);
+  }
+  .edu-item { margin-bottom: 0.85rem; }
+  .edu-item:last-child { margin-bottom: 0; }
+  .edu-degree {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .edu-place { font-size: 0.82rem; color: var(--text-muted); }
+  .edu-year {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--gold);
+  }
+
+  /* ── PUBLICATIONS ── */
+  .pub-filter {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .pub-filter button {
+    padding: 0.3rem 0.9rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .pub-filter button.active,
+  .pub-filter button:hover { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+  .pub-group { margin-bottom: 2.5rem; }
+  .pub-group-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .pub-group-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .pub-list { display: flex; flex-direction: column; gap: 0.85rem; }
+  .pub-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    padding: 1.1rem 1.3rem;
+    border-radius: 0 4px 4px 0;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .pub-item:hover { border-left-color: var(--gold); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .pub-item.in-review { border-left-color: var(--cream-dark); background: #fafaf8; }
+  .pub-item.in-review:hover { border-left-color: var(--gold-light); }
+  .pub-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.97rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.3rem;
+    line-height: 1.45;
+  }
+  .pub-authors { font-size: 0.83rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+  .pub-authors strong { color: var(--text); }
+  .pub-journal {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+  .pub-journal span {
+    font-style: normal;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-light);
+    margin-left: 0.3rem;
+  }
+  .pub-links { margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .pub-link {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .pub-link.doi { background: var(--navy); color: var(--cream); }
+  .pub-link.doi:hover { background: var(--navy-light); }
+  .pub-link.status {
+    background: var(--cream-dark);
+    color: var(--text-muted);
+    cursor: default;
+    font-style: italic;
+  }
+  .pub-link.pub-eng { background: #2e7d32; color: white; }
+  .pub-link.pub-eng:hover { background: #1b5e20; }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+  .project-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--navy);
+    padding: 1.5rem;
+    border-radius: 0 0 4px 4px;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .project-card:hover { box-shadow: 0 6px 24px rgba(28,43,74,0.1); transform: translateY(-2px); }
+  .project-card.featured { border-top-color: var(--gold); }
+  .project-tag {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text-light);
+    margin-bottom: 0.75rem;
+  }
+  .project-card.featured .project-tag { background: rgba(184,148,63,0.12); border-color: rgba(184,148,63,0.3); color: var(--gold); }
+  .project-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .project-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.6; }
+  .project-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.7rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text-muted);
+    background: var(--cream);
+    transition: all 0.2s;
+  }
+  .project-link:hover { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+  .project-link.primary { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+  .project-link.primary:hover { background: var(--navy-light); }
+
+  /* ── NEWS ── */
+  .news-list { display: flex; flex-direction: column; gap: 1rem; }
+  .news-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1.25rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 1.1rem 1.3rem;
+    border-radius: 4px;
+    align-items: start;
+    transition: box-shadow 0.2s;
+  }
+  .news-item:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .news-date {
+    text-align: center;
+    padding-top: 0.1rem;
+  }
+  .news-date .month {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+  }
+  .news-date .year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--navy);
+    display: block;
+    line-height: 1.1;
+  }
+  .news-body {}
+  .news-type {
+    display: inline-block;
+    padding: 0.1rem 0.45rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    margin-bottom: 0.3rem;
+  }
+  .news-type.grant { background: #e8f5e9; color: #2e7d32; }
+  .news-type.paper { background: #e3f2fd; color: #1565c0; }
+  .news-type.talk { background: #fce4ec; color: #b71c1c; }
+  .news-type.media { background: #fff3e0; color: #e65100; }
+  .news-type.award { background: #f3e5f5; color: #6a1b9a; }
+  .news-title { font-size: 0.92rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; line-height: 1.4; }
+  .news-detail { font-size: 0.82rem; color: var(--text-muted); }
+  .news-detail a { color: var(--navy-light); }
+
+  /* ── BLOG ── */
+  .blog-placeholder {
+    background: var(--white);
+    border: 2px dashed var(--border);
+    padding: 3rem;
+    text-align: center;
+    border-radius: 4px;
+  }
+  .blog-placeholder .bp-icon { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.3; }
+  .blog-placeholder h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+    opacity: 0.6;
+  }
+  .blog-placeholder p { font-size: 0.88rem; color: var(--text-light); }
+
+  /* ── CONTACT / FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(247,242,234,0.7);
+    padding: 3rem 2rem;
+    border-top: 3px solid var(--gold);
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  footer h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+  .footer-tagline { font-size: 0.88rem; margin-bottom: 1.5rem; }
+  .contact-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.65rem;
+    font-size: 0.88rem;
+  }
+  .contact-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    min-width: 60px;
+  }
+  .contact-item a { color: rgba(247,242,234,0.75); text-decoration: none; }
+  .contact-item a:hover { color: var(--gold-light); }
+  .footer-memberships { margin-top: 1.5rem; }
+  .footer-memberships h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .footer-memberships p { font-size: 0.82rem; }
+  .footer-copy {
+    max-width: 1100px;
+    margin: 2rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-align: center;
+    opacity: 0.4;
+  }
+
+  /* ── FADE-IN ── */
+  .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 800px) {
+    .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+    .hero-photo-wrap { flex-direction: row; flex-wrap: wrap; }
+    .hero-tags { justify-content: center; }
+    .about-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: var(--navy); padding: 1rem; gap: 0.25rem; border-bottom: 2px solid var(--gold); }
+    .nav-links.open { display: flex; }
+    .hamburger { display: flex; }
+    .news-item { grid-template-columns: 60px 1fr; }
+  }
+  @media (max-width: 520px) {
+    .hero { padding: 3rem 1.25rem 2.5rem; }
+    section { padding: 3rem 1.25rem; }
+    footer { padding: 2.5rem 1.25rem; }
+  }
+</style>
+</head>
 <body>
 
-<img src="https://octodex.github.com/images/tentocats.jpg" id="octocat" alt="octocat-gif" />
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top">Dr. <span>Manudeo Singh</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
 
-<!-- Change this code here by copy and pasting your template on line 15 -->
-<p>
-  Hello World! I’m <a href = "https://www.researchgate.net/profile/Manudeo-Singh" target = "_self">Manudeo Singh</a>.
-  
-  I'm an early career researcher in Earth Sciences. 
-  
-</p>
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-photo-wrap">
+      <img class="hero-photo" src="profile.jpg" alt="Dr. Manudeo Singh">
+      <div class="hero-social">
+        <a href="mailto:mas291@aber.ac.uk">✉ Email</a>
+        <a href="https://github.com/manudeo" target="_blank">⌥ GitHub</a>
+        <a href="https://scholar.google.co.in/citations?user=eWzHmEMAAAAJ&hl=en" target="_blank">◎ Scholar</a>
+        <a href="https://orcid.org/0000-0002-3511-8362" target="_blank">⊕ ORCID</a>
+      </div>
+    </div>
+    <div class="hero-text">
+      <p class="hero-subtitle">Royal Society · Newton International Fellow</p>
+      <h1 class="hero-title">Dr. Manudeo Singh</h1>
+      <p class="hero-affil">
+        Department of Geography and Earth Sciences<br>
+        Aberystwyth University, Wales, UK
+      </p>
+      <div class="hero-tags">
+        <span>Wetland Remote Sensing</span>
+        <span>Fluvial Geomorphology</span>
+        <span>Dryland Hydrology</span>
+        <span>Radar Interferometry</span>
+        <span>Google Earth Engine</span>
+        <span>Climate Change</span>
+      </div>
+      <div class="hero-fellowships">
+        <div class="fellowship-badge">
+          <strong>Newton International Fellow</strong> · Aberystwyth University (2023–26)
+        </div>
+        <div class="fellowship-badge">
+          <strong>Alexander von Humboldt Fellow</strong> · Universität Potsdam (2021–23)
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About</h2>
+    </div>
+    <div class="about-grid fade-in">
+      <div class="about-text">
+        <p>I am a Royal Society – Newton International Fellow in the <a href="https://www.aber.ac.uk/en/dges/" target="_blank" style="color:var(--navy-light)">Department of Geography and Earth Sciences</a> at Aberystwyth University, where my research focuses on characterising surface water dynamics in global drylands — asking how wetlands will respond to future environmental change, and what role they can play as sentinel indicators of climate shifts.</p>
+        <p>My work sits at the intersection of <strong>computational geoscience, fluvial geomorphology, and hydrology</strong>, combining multi-temporal Earth observation datasets (optical, radar/SAR, InSAR) with field campaigns across India, Spain, and Argentina. A recurring theme is the concept of <em>geomorphic connectivity</em> — understanding how landscape components are linked across space and time.</p>
+        <p>Before Aberystwyth, I held an Alexander von Humboldt Postdoctoral Fellowship at the University of Potsdam (Germany), working on floodplain hydrogeomorphic dynamics using radar interferometry, and Postdoctoral and Project Scientist positions at IIT Kanpur (India), leading ISRO- and WWF-funded projects on wetland mapping, floodplain connectivity, and restoration.</p>
+        <p>I completed my PhD at IIT Kanpur in 2019, studying the geomorphic evolution, connectivity, and dynamics of Kaabar Tal — a large tropical floodplain wetland in North Bihar, India, which was subsequently designated a Ramsar site. I am currently mentored at Aberystwyth by <strong>Prof Stephen Tooth</strong>.</p>
+      </div>
+      <div class="about-sidebar">
+        <div class="sidebar-block">
+          <h4>Research Interests</h4>
+          <div class="interest-pills">
+            <span class="interest-pill">Wetland dynamics</span>
+            <span class="interest-pill">Drylands hydrology</span>
+            <span class="interest-pill">SAR / InSAR</span>
+            <span class="interest-pill">Google Earth Engine</span>
+            <span class="interest-pill">Geomorphic connectivity</span>
+            <span class="interest-pill">Floodplain geomorphology</span>
+            <span class="interest-pill">Water security</span>
+            <span class="interest-pill">Natural hazards</span>
+            <span class="interest-pill">Climate change</span>
+          </div>
+        </div>
+        <div class="sidebar-block">
+          <h4>Education</h4>
+          <div class="edu-item">
+            <div class="edu-degree">PhD · Earth Sciences</div>
+            <div class="edu-place">IIT Kanpur, India</div>
+            <div class="edu-year">2019</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-degree">MSc · Disaster Management</div>
+            <div class="edu-place">Pondicherry University, India</div>
+            <div class="edu-year">2013</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-degree">BSc · Physical Sciences</div>
+            <div class="edu-place">Hansraj College, Delhi University</div>
+            <div class="edu-year">2011 · Gold Medals</div>
+          </div>
+        </div>
+        <div class="sidebar-block">
+          <h4>Contact</h4>
+          <div style="font-size:0.85rem; color:var(--text-muted);">
+            <div style="margin-bottom:0.4rem">✉ <a href="mailto:mas62@aber.ac.uk" style="color:var(--navy-light)">mas62@aber.ac.uk</a></div>
+            <div>Department of Geography and Earth Sciences<br>Aberystwyth University<br>Aberystwyth, SY23 3DB, Wales, UK</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Publications</h2>
+    </div>
+
+    <div class="pub-filter">
+      <button class="active" onclick="filterPubs('all',this)">All</button>
+      <button onclick="filterPubs('journal',this)">Journal Articles</button>
+      <button onclick="filterPubs('inreview',this)">In Review</button>
+      <button onclick="filterPubs('chapter',this)">Book Chapters</button>
+      <button onclick="filterPubs('public',this)">Public Engagement</button>
+    </div>
+
+    <!-- In Press / 2026 -->
+    <div class="pub-group" data-group="journal">
+      <div class="pub-group-label">2026</div>
+      <div class="pub-list">
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">The Thar Desert in India: landscapes transformed by human activities</div>
+          <div class="pub-authors">Tooth, S, <strong>M Singh</strong>, and J Mukherjee</div>
+          <div class="pub-journal">Geography Review <span>· 39(3) · 2026</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2025 -->
+    <div class="pub-group" data-group="journal">
+      <div class="pub-group-label">2025</div>
+      <div class="pub-list">
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Remote Sensing of Alpine Peatlands: Challenges of Mapping Thousands of Sparse Small Sites Scattered Across Extensive Mountainous Territories</div>
+          <div class="pub-authors">Li, Q, <strong>M Singh</strong>, and S Silvestri</div>
+          <div class="pub-journal">Earth and Space Science <span>· 12(7): e2025EA004201 · 2025</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.1029/2025EA004201" target="_blank">DOI</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2022 -->
+    <div class="pub-group" data-group="journal">
+      <div class="pub-group-label">2022</div>
+      <div class="pub-list">
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Deriving wetland-cover types (WCTs) from integration of multispectral indices based on Earth observation data</div>
+          <div class="pub-authors"><strong>Singh, M</strong>, S Allaka, PK Gupta, JG Patel, and R Sinha</div>
+          <div class="pub-journal">Environmental Monitoring and Assessment <span>· 194(12): 878 · 2022</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.1007/s10661-022-10541-7" target="_blank">DOI</a>
+          </div>
+        </div>
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Wetlandscape (dis)connectivity and fragmentation in a large wetland (Haiderpur) in west Ganga plains, India</div>
+          <div class="pub-authors"><strong>Singh, M</strong>, R Sinha, A Mishra, and S Babu</div>
+          <div class="pub-journal">Earth Surface Processes and Landforms <span>· 47(7): 1–16 · 2022</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.1002/esp.5352" target="_blank">DOI</a>
+          </div>
+        </div>
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Integrating Hydrological Connectivity in a Process–Response Framework for Restoration and Monitoring Prioritisation of Floodplain Wetlands in the Ramganga Basin, India</div>
+          <div class="pub-authors"><strong>Singh, M</strong> and R Sinha</div>
+          <div class="pub-journal">Water <span>· 14(21): 3520 · 2022</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.3390/w14213520" target="_blank">DOI</a>
+          </div>
+        </div>
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">A basin-scale inventory and hydrodynamics of floodplain wetlands based on time-series of remote sensing data</div>
+          <div class="pub-authors"><strong>Singh, M</strong> and R Sinha</div>
+          <div class="pub-journal">Remote Sensing Letters <span>· 13(1): 1–13 · 2022</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.1080/2150704X.2021.1980919" target="_blank">DOI</a>
+          </div>
+        </div>
+        <div class="pub-item fade-in" data-type="chapter">
+          <div class="pub-title">Climate Change and its Impact on Catchment Linkage and Connectivity</div>
+          <div class="pub-authors"><strong>Singh, M</strong> and R Sinha</div>
+          <div class="pub-journal">Applied Geomorphology and Contemporary Issues, Springer <span>· pp. 167–178 · 2022</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.1007/978-3-031-04532-5_8" target="_blank">DOI</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2021 -->
+    <div class="pub-group" data-group="journal">
+      <div class="pub-group-label">2021</div>
+      <div class="pub-list">
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Geomorphic connectivity and its application for understanding landscape complexities: a focus on the hydro‐geomorphic systems of India</div>
+          <div class="pub-authors"><strong>Singh, M</strong>, R Sinha, and SK Tandon</div>
+          <div class="pub-journal">Earth Surface Processes and Landforms <span>· 46(1): 110–130 · 2021</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.1002/esp.4945" target="_blank">DOI</a>
+          </div>
+        </div>
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Hydrogeomorphic indicators of wetland health inferred from multi-temporal remote sensing data for a new Ramsar site (Kaabar Tal), India</div>
+          <div class="pub-authors"><strong>Singh, M</strong> and R Sinha</div>
+          <div class="pub-journal">Ecological Indicators <span>· 127: 107739 · 2021</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.1016/j.ecolind.2021.107739" target="_blank">DOI</a>
+          </div>
+        </div>
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Kaabar Tal, Bihar's first Ramsar site: status, challenges and recommendations</div>
+          <div class="pub-authors"><strong>Singh, M</strong> and R Sinha</div>
+          <div class="pub-journal">Current Science <span>· 120(2): 270–272 · 2021</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://www.jstor.org/stable/27310179" target="_blank">Link</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2020 & earlier -->
+    <div class="pub-group" data-group="journal">
+      <div class="pub-group-label">2017 – 2020</div>
+      <div class="pub-list">
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Distribution, diversity, and geomorphic evolution of floodplain wetlands and wetland complexes in the Ganga plains of north Bihar, India</div>
+          <div class="pub-authors"><strong>Singh, M</strong> and R Sinha</div>
+          <div class="pub-journal">Geomorphology <span>· 351: 106960 · 2020</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.1016/j.geomorph.2019.106960" target="_blank">DOI</a>
+          </div>
+        </div>
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Evaluating dynamic hydrological connectivity of a floodplain wetland in North Bihar, India using geostatistical methods</div>
+          <div class="pub-authors"><strong>Singh, M</strong> and R Sinha</div>
+          <div class="pub-journal">Science of the Total Environment <span>· 651(2): 2473–2488 · 2019</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.1016/j.scitotenv.2018.10.139" target="_blank">DOI</a>
+          </div>
+        </div>
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Protocols for riverine wetland mapping and classification using remote sensing and GIS</div>
+          <div class="pub-authors">Sinha, R, S Saxena, and <strong>M Singh</strong></div>
+          <div class="pub-journal">Current Science <span>· 112(7): 1544–1552 · 2017</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.18520/cs/v112/i07/1544-1552" target="_blank">DOI</a>
+          </div>
+        </div>
+        <div class="pub-item fade-in" data-type="journal">
+          <div class="pub-title">Assessment of connectivity in a water‐stressed wetland (Kaabar Tal) of Kosi‐Gandak interfan, north Bihar Plains, India</div>
+          <div class="pub-authors"><strong>Singh, M</strong>, SK Tandon, and R Sinha</div>
+          <div class="pub-journal">Earth Surface Processes and Landforms <span>· 42(13): 1982–1996 · 2017</span></div>
+          <div class="pub-links">
+            <a class="pub-link doi" href="https://doi.org/10.1002/esp.4156" target="_blank">DOI</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ 
+    <!-- Public Engagement -->
+    <div class="pub-group" data-group="public">
+      <div class="pub-group-label">Public Engagement</div>
+      <div class="pub-list">
+        <div class="pub-item fade-in" data-type="public">
+          <div class="pub-title">Himalayan flash floods: climate change worsens them, but poor planning makes them deadly</div>
+          <div class="pub-authors"><strong>Singh, M</strong></div>
+          <div class="pub-journal">The Conversation <span>· 27 August 2025</span></div>
+          <div class="pub-links">
+            <a class="pub-link pub-eng" href="https://doi.org/10.64628/AB.kxhwehgcd" target="_blank">Read Article</a>
+          </div>
+        </div>
+        <div class="pub-item fade-in" data-type="public">
+          <div class="pub-title">Wetlands: sources or sinks of greenhouse gases?</div>
+          <div class="pub-authors"><strong>Singh, M</strong></div>
+          <div class="pub-journal">Nerd Magazine, IIT Kanpur <span>· 23 March 2016</span></div>
+          <div class="pub-links">
+            <a class="pub-link pub-eng" href="https://www.iitk.ac.in/nerd/web/articles/wetlands-sources-or-sinks-of-greenhouse-gases" target="_blank">Read Article</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Projects &amp; Software</h2>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card featured fade-in">
+        <div class="project-tag">Python Package · In Development</div>
+        <div class="project-title">WetlandMapper</div>
+        <div class="project-desc">A unified Python package implementing two peer-reviewed wetland remote sensing methods. Designed for the geoscience community with Google Earth Engine integration, interactive visualisations (hvplot/holoviews), and full documentation. Targeting PyPI, conda-forge, and a JOSS paper submission.</div>
+        <div class="project-links">
+          <a class="project-link primary" href="https://github.com/manudeo" target="_blank">⌥ GitHub</a>
+          <span class="project-link" style="cursor:default; opacity:0.6">PyPI · Coming Soon</span>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-tag">Research Code · Open Access</div>
+        <div class="project-title">Hydrological Paradox of the Ganga Plains</div>
+        <div class="project-desc">Reproducible analysis notebooks and figures for the manuscript "Flooded Rivers, Drying Wetlands, Vanishing Tributaries". Includes time-series wetness classification, trajectory masking, and HAND-stratified correlation workflows.</div>
+        <div class="project-links">
+          <a class="project-link primary" href="https://github.com/manudeo/Hydrological_Paradox_Ganga_Plains" target="_blank">⌥ GitHub</a>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-tag">Remote Sensing · GEE</div>
+        <div class="project-title">Dryland Wetland Dynamics (Newton Fellowship)</div>
+        <div class="project-desc">Multi-temporal satellite analysis of wetland extent and health across Indian drylands (Rajasthan, Gujarat, Ladakh), Spain (Doñana NP), and Argentina (Patagonia). Ground-truthed with multi-continental field campaigns 2024–25.</div>
+        <div class="project-links">
+          <a class="project-link" href="#contact">Contact for details</a>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-tag">InSAR · Radar Remote Sensing</div>
+        <div class="project-title">Floodplain InSAR (Humboldt Fellowship)</div>
+        <div class="project-desc">Application of multi-temporal SAR data (ISCE-2, MintPy, FRInGE) to trace floodplain hydrodynamics and land subsidence in the East Ganga Plains, India, using Sentinel-1 and TanDEM-X data.</div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/manudeo" target="_blank">⌥ GitHub</a>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-tag">Field & Remote Sensing · ISPF Grant</div>
+        <div class="project-title">Chambal Badlands Project</div>
+        <div class="project-desc">PI of a six-university Aberystwyth–India collaboration (£24,300 ISPF grant) to establish the origin age, mode, and present status of the Chambal Badlands. Combines OSL dating, C-14, isotope studies, and DGPS surveys.</div>
+        <div class="project-links">
+          <a class="project-link" href="#news">News &amp; Updates</a>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-tag">Open Source · R Package</div>
+        <div class="project-title">riverMapper (Collaborator)</div>
+        <div class="project-desc">Contributed to riverMapper — an R package for large-scale mapping of river corridors and their dynamics using open-access data. Presented at AGU Fall Meeting 2024.</div>
+        <div class="project-links">
+          <a class="project-link" href="https://agu.confex.com/agu/agu24/meetingapp.cgi/Paper/1663498" target="_blank">AGU Abstract</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">News &amp; Highlights</h2>
+    </div>
+    <div class="news-list">
+
+      <div class="news-item fade-in">
+        <div class="news-date"><span class="month">Dec</span><span class="year">2025</span></div>
+        <div class="news-body">
+          <span class="news-type talk">Conference</span>
+          <div class="news-title">Oral presentation at AGU Fall Meeting 2025 — What controls river pothole formation? </div>
+          <div class="news-detail">H33B - Advances in River Morphology Science, Tools, and Datasets: Improving Our Understanding of Rivers II Oral.</div>
+        </div>
+      </div>
+		
+
+		
+      <div class="news-item fade-in">
+        <div class="news-date"><span class="month">Nov</span><span class="year">2025</span></div>
+        <div class="news-body">
+          <span class="news-type grant">Grant</span>
+          <div class="news-title">New ISPF Grant awarded — PI, Chambal Badlands Project (£24,300)</div>
+          <div class="news-detail">Leading a six-university AU–India collaboration on the Chambal Badlands: addressing land degradation and geoheritage promotion.</div>
+        </div>
+      </div>
+      <div class="news-item fade-in">
+        <div class="news-date"><span class="month">Aug</span><span class="year">2025</span></div>
+        <div class="news-body">
+          <span class="news-type media">Media</span>
+          <div class="news-title">Article in <em>The Conversation</em>: "Himalayan flash floods: climate change worsens them, but poor planning makes them deadly"</div>
+          <div class="news-detail"><a href="https://doi.org/10.64628/AB.kxhwehgcd" target="_blank">Read on The Conversation →</a></div>
+        </div>
+      </div>
+      <div class="news-item fade-in">
+        <div class="news-date"><span class="month">Sep</span><span class="year">2025</span></div>
+        <div class="news-body">
+          <span class="news-type talk">Conference</span>
+          <div class="news-title">Oral presentation at GSA Connects 2025 — woody vegetation and dryland channel dynamics, Río Senguerr, Argentina</div>
+          <div class="news-detail">GSA Connects 2025, oral session.</div>
+        </div>
+      </div>
+      <div class="news-item fade-in">
+        <div class="news-date"><span class="month">Apr</span><span class="year">2025</span></div>
+        <div class="news-body">
+          <span class="news-type paper">New Paper</span>
+          <div class="news-title">Remote Sensing of Alpine Peatlands published in <em>Earth and Space Science</em></div>
+          <div class="news-detail">Li, Q, <strong>M Singh</strong>, and S Silvestri. <a href="https://doi.org/10.1029/2025EA004201" target="_blank">DOI →</a></div>
+        </div>
+      </div>
+      <div class="news-item fade-in">
+        <div class="news-date"><span class="month">Dec</span><span class="year">2023</span></div>
+        <div class="news-body">
+          <span class="news-type award">Fellowship</span>
+          <div class="news-title">Joined Aberystwyth University as Royal Society – Newton International Fellow</div>
+          <div class="news-detail">Hosted by Prof Stephen Tooth, Department of Geography and Earth Sciences. Project: characterising surface water dynamics in Indian drylands (£420,000; 2023–26).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Blog</h2>
+    </div>
+    <div class="blog-placeholder fade-in">
+      <div class="bp-icon">✍</div>
+      <h3>Coming Soon</h3>
+      <p>Posts on wetland remote sensing, fieldwork dispatches, and reflections on science communication will appear here.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div>
+      <h3>Get in Touch</h3>
+      <p class="footer-tagline">Happy to discuss research collaborations, speaking invitations, or outreach.</p>
+      <div class="contact-item">
+        <span class="contact-label">Email</span>
+        <a href="mailto:mas291@aber.ac.uk">mas62@aber.ac.uk</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">GitHub</span>
+        <a href="https://github.com/manudeo" target="_blank">github.com/manudeo</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">Address</span>
+        <span>Dept. of Geography and Earth Sciences<br>Aberystwyth University, SY23 3DB<br>Wales, UK</span>
+      </div>
+      <div class="footer-memberships">
+        <h4>Professional Memberships</h4>
+        <p>American Geophysical Union (AGU) · European Geosciences Union (EGU) · Geological Society of America (GSA) · British Society for Geomorphology (BSG)</p>
+      </div>
+    </div>
+    <div>
+      <h3>Dr. Manudeo Singh</h3>
+      <p class="footer-tagline" style="font-style:italic;color:rgba(247,242,234,0.55);">Royal Society – Newton International Fellow<br>Aberystwyth University</p>
+      <p style="font-size:0.85rem;margin-top:1rem;line-height:1.7;">My research explores how wetlands and surface water systems in drylands are responding to environmental change — combining satellite remote sensing, InSAR, and cross-continental field campaigns to find answers in some of the world's most water-stressed landscapes.</p>
+    </div>
+  </div>
+  <div class="footer-copy">© 2026 Manudeo Singh · Built with plain HTML/CSS · Hosted on GitHub Pages</div>
+</footer>
+
+<script>
+// Publication filter
+function filterPubs(type, btn) {
+  document.querySelectorAll('.pub-filter button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pub-item').forEach(item => {
+    if (type === 'all' || item.dataset.type === type) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+  document.querySelectorAll('.pub-group').forEach(g => {
+    const visible = [...g.querySelectorAll('.pub-item')].some(i => i.style.display !== 'none');
+    g.style.display = visible ? '' : 'none';
+  });
+}
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 60);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Smooth close nav on mobile click
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+});
+</script>
 </body>
 </html>
