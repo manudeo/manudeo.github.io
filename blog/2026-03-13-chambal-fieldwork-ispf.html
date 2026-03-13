@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traversing the Chambal Badlands · Manudeo Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1c2b4a;
+    --navy-light: #2d4070;
+    --gold: #b8943f;
+    --gold-light: #d4b060;
+    --cream: #f7f2ea;
+    --cream-dark: #ede5d6;
+    --text: #2a2a2a;
+    --text-muted: #5a5a5a;
+    --text-light: #8a8a8a;
+    --white: #ffffff;
+    --border: #d6cfc4;
+    --section-alt: #f0ebe1;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--navy);
+    border-bottom: 3px solid var(--gold);
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 780px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--cream); text-decoration: none; letter-spacing: 0.03em;
+  }
+  .nav-brand span { color: var(--gold-light); }
+  .nav-back {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(247,242,234,0.65); text-decoration: none;
+    padding: 0.3rem 0.75rem; border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 2px; transition: all 0.2s;
+  }
+  .nav-back:hover { color: var(--gold-light); border-color: var(--gold-light); }
+
+  /* ── POST HEADER ── */
+  .post-header {
+    background: var(--navy);
+    padding: 4rem 2rem 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .post-header-inner { max-width: 780px; margin: 0 auto; }
+  .post-breadcrumb {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 1.2rem;
+  }
+  .post-breadcrumb a { color: var(--gold-light); text-decoration: none; }
+  .post-breadcrumb a:hover { text-decoration: underline; }
+  .post-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    font-weight: 600; line-height: 1.2;
+    color: var(--cream); margin-bottom: 1.2rem;
+    letter-spacing: -0.01em;
+  }
+  .post-meta {
+    display: flex; flex-wrap: wrap; gap: 1.25rem;
+    align-items: center;
+  }
+  .post-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.08em;
+    color: rgba(247,242,234,0.55);
+  }
+  .post-tags { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+  .post-tag {
+    padding: 0.18rem 0.65rem;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.76rem; font-style: italic;
+    border: 1px solid rgba(184,148,63,0.4);
+    color: var(--gold-light); border-radius: 20px;
+  }
+
+  /* ── POST BODY ── */
+  .post-body {
+    max-width: 780px; margin: 0 auto;
+    padding: 3.5rem 2rem 5rem;
+  }
+
+  /* Typography */
+  .post-body p { margin-bottom: 1.4rem; font-size: 1.05rem; color: #35302a; }
+  .post-body p:last-child { margin-bottom: 0; }
+
+  .post-body h1, .post-body h2, .post-body h3, .post-body h4 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--navy); line-height: 1.25;
+    margin-top: 2.5rem; margin-bottom: 0.75rem;
+  }
+  .post-body h1 { font-size: 2rem; font-weight: 600; }
+  .post-body h2 {
+    font-size: 1.6rem; font-weight: 600;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-body h3 { font-size: 1.3rem; font-weight: 500; }
+  .post-body h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-top: 2rem;
+  }
+
+  .post-body a { color: var(--navy-light); text-decoration: underline; text-underline-offset: 3px; }
+  .post-body a:hover { color: var(--gold); }
+
+  .post-body strong { font-weight: 600; color: var(--navy); }
+  .post-body em { font-style: italic; }
+
+  .post-body ul, .post-body ol {
+    margin: 0 0 1.4rem 1.5rem;
+    font-size: 1.02rem;
+  }
+  .post-body li { margin-bottom: 0.4rem; }
+
+  .post-body blockquote {
+    border-left: 3px solid var(--gold);
+    padding: 0.75rem 1.25rem;
+    margin: 2rem 0;
+    background: var(--section-alt);
+    border-radius: 0 4px 4px 0;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+  .post-body blockquote p { margin-bottom: 0; font-size: 1rem; }
+
+  .post-body figure {
+    margin: 2rem 0;
+    text-align: center;
+  }
+  .post-body figure img {
+    max-width: 100%; height: auto;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .post-body figcaption {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.05em;
+    color: var(--text-light); margin-top: 0.6rem;
+    font-style: normal;
+  }
+
+  .post-body img { max-width: 100%; height: auto; }
+
+  .post-body table {
+    width: 100%; border-collapse: collapse;
+    margin: 1.5rem 0; font-size: 0.9rem;
+  }
+  .post-body th {
+    background: var(--navy); color: var(--cream);
+    padding: 0.6rem 0.9rem; text-align: left;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.06em; font-weight: 700;
+  }
+  .post-body td {
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .post-body tr:nth-child(even) td { background: var(--section-alt); }
+
+  .post-body hr {
+    border: none; border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  .post-body code {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.83em;
+    background: var(--section-alt);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+  .post-body pre {
+    background: var(--navy);
+    padding: 1.25rem 1.5rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  .post-body pre code {
+    background: none; border: none; padding: 0;
+    font-size: 0.82rem; color: var(--cream-dark);
+    line-height: 1.65;
+  }
+
+  /* ── BACK LINK ── */
+  .post-footer {
+    max-width: 780px; margin: 0 auto;
+    padding: 0 2rem 3rem;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--navy-light); text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border); border-radius: 2px;
+    background: var(--white);
+    transition: all 0.2s;
+  }
+  .back-link:hover { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+
+  /* ── SITE FOOTER ── */
+  footer {
+    background: var(--navy);
+    border-top: 3px solid var(--gold);
+    padding: 2rem;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: rgba(247,242,234,0.35);
+  }
+  footer a { color: rgba(247,242,234,0.5); text-decoration: none; }
+  footer a:hover { color: var(--gold-light); }
+
+  @media (max-width: 600px) {
+    .post-header { padding: 2.5rem 1.25rem 2rem; }
+    .post-body { padding: 2.5rem 1.25rem 4rem; }
+    .post-footer { padding: 0 1.25rem 2.5rem; padding-top: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="../index.html">Dr. <span>Manudeo Singh</span></a>
+    <a class="nav-back" href="../index.html#blog">← Blog</a>
+  </div>
+</nav>
+
+<!-- POST HEADER -->
+<header class="post-header">
+  <div class="post-header-inner">
+    <div class="post-breadcrumb">
+      <a href="../index.html">Home</a> &nbsp;/&nbsp; <a href="../index.html#blog">Blog</a> &nbsp;/&nbsp; Post
+    </div>
+    <h1 class="post-title">Traversing the Chambal Badlands</h1>
+    <div class="post-meta">
+      <span class="post-date">13 March 2026</span>
+      <div class="post-tags">
+        <span class="post-tag">Fieldwork</span>
+        <span class="post-tag">Multidisciplinary Research</span>
+        <span class="post-tag">Social Aspects</span>
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- POST BODY (Pandoc inserts converted Word content here) -->
+<main class="post-body">
+<h1 id="chambal-badlands-field-campaign">Chambal Badlands Field Campaign</h1>
+<p><em>Before my first visit, the Chambal meant one thing to most people I knew: bandits. What I found instead — stretching to the horizon in every direction — was one of the most geomorphologically spectacular and scientifically neglected landscapes in South Asia, and a region whose people are living with the very real consequences of a landscape in rapid, relentless change. Here are my reflections on a recent field campaign drawing together six universities and researchers at every career stage.</em></p>
+<p>There is a particular kind of anxiety that comes with leading a large field campaign – one that has nothing to do with the science itself. It is the anxiety of responsibility: for the safety of fifteen people across unfamiliar terrain, for the integrity of data that has taken months of planning to design, and for the expectations of institutions and funding bodies who have placed their trust in a proposal that existed, until this January, only on paper. As our convoy pulled into Morena on the evening of 9th January 2026, I felt all of that simultaneously. By the time we left ten days later, I felt something else entirely.</p>
+<p>The seeds of this project were planted, as many good ideas are, almost by accident. My Royal Society–Newton International Fellowship, which focuses on water security in dryland India, had brought me into sustained contact with Indian colleagues and institutions – IIT Gandhinagar, PRL Ahmedabad – and it was through those connections that the Chambal first entered my thinking seriously. I will admit that before that first visit, the Chambal meant something quite different to me than it does now. Like many Indians who grew up far from the region, my mental image of the Chambal was shaped almost entirely by its reputation as dacoit country – the landscape of outlaws and ravines that features so vividly in popular imagination. The geomorphology was simply not something I had engaged with seriously. In January 2024, Jayesh, Stephen, Vikram, Vikrant, and I made a short reconnaissance visit to the badlands as an offshoot of that fellowship work. I had heard Vikram speak about the ravines with the quiet reverence of someone who has returned to a landscape year after year since 2008, but nothing had prepared me for the scale of what I saw. Standing at the edge of a <em>dhand</em> and looking out over kilometres of deeply dissected terrain – the light catching the cliff faces at dusk, the river glinting far below – I understood immediately that this landscape demanded more than it had received from the scientific community. Much of the scientific vision for what this project would become crystallised during and after that 2024 visit, in conversations between Vikram, Vikrant, Stephen, and me. Vikram's forensic familiarity with the Chambal's spatial patterns and dynamics, Vikrant's instinct for how Indian fluvial systems encode their tectonic and climatic histories, and Stephen's comparative perspective from badlands and gully systems elsewhere in the world collectively shaped the four-objective framework that would eventually become our ISPF proposal. We drove back that first evening with more questions than we had arrived with, and the outline of a research programme forming in my mind.</p>
+<p>The ISPF application that emerged from those conversations was, in hindsight, an attempt to match the complexity of the landscape with the breadth of expertise needed to interrogate it properly. It was structured around four interlocking objectives: establishing the age and causal factors of badland formation through luminescence dating, isotopic analyses, and geomorphic mapping; assessing the role of badlands in soil carbon storage and loss through CO₂ and CH₄ flux measurements; identifying best-practice land management techniques through stakeholder engagement and field reconnaissance; and promoting the badlands as geoheritage sites capable of supporting geoeducation and geotourism. What bound these four threads together was a shared ambition: to produce not merely papers, but a scientific, practical, and social blueprint for transforming a deeply degraded landscape into a resilient and culturally valued one. The funding window through which we applied was narrow, and the time between identifying the opportunity and submitting the proposal was short by any standard. What made it possible was the speed and generosity with which every colleague responded. Across different time zones, institutional calendars, and competing commitments, people turned around their contributions, confirmed their participation, and offered resources with a readiness that I did not take for granted then, and do not now.</p>
+<figure>
+<img src="2026-03-13-chambal-fieldwork-ispf_files/media/image1.jpeg" style="width:6.26806in;height:8.35764in" />
+<figcaption><p>1. One of the first OSL samples, being collected by Dr Malika Singhal.</p></figcaption>
+</figure>
+<p>I am grateful to Aberystwyth University for funding the project at £24,350, and deeply grateful to the colleagues who responded to my invitation with such enthusiasm. Several individuals deserve particular mention for the structural role they played in making this project viable.</p>
+<p>Naveen Chauhan at PRL Ahmedabad is one of India's leading luminescence scientists, with decades of research on OSL dating protocols, dosimetry, and single-grain analysis at one of the most sophisticated luminescence facilities in South Asia. His willingness to commit PRL's laboratory to the analysis of our samples, entirely as in-kind support – covering OSL, radiocarbon, and stable isotope measurements that would have cost upwards of £20,000 at UK commercial rates – was transformative. Without that commitment, this project would have been a very different and considerably more limited exercise.</p>
+<p>Amzad Laskar, also at PRL Ahmedabad, an excellent researcher and an old friend, whose work sits precisely at the intersection this project needed most. His research applies traditional and non-traditional stable and radiogenic isotopes – including radiocarbon, stable carbon, and groundwater tracers – to questions of carbon dynamics, palaeoclimate reconstruction, and sediment geochronology in Indian landscapes. The AMS radiocarbon dating infrastructure he has developed at PRL, combined with his experience measuring soil CO₂ and carbon cycling in various settings, makes him the ideal person to anchor the geochronological and carbon flux components of our work. He was on-site for the critical third day of fieldwork, helping lead CO₂ sampling at the Nawali Brindawan oxbow and overseeing sediment core extraction. His hands-on involvement in both field collection and the forthcoming laboratory analysis means there is genuine continuity across the entire analytical pipeline – a continuity that is often harder to achieve than it sounds.</p>
+<p>Stephen Tooth, my mentor, colleague and co-applicant at Aberystwyth, provided something equally important: intellectual grounding. Stephen has spent a career studying controls on gully erosion and dryland landscape evolution across Australia, southern Africa, and India, including OSL-based chronological work on donga formation in South Africa published in the Journal of Quaternary Science – work that directly parallels what we are attempting in the Chambal. He was part of the original 2024 reconnaissance trip, and it is fair to say that without his early enthusiasm for the landscape's scientific potential, the conversation that eventually became this proposal might never have happened. His presence throughout the campaign, though largely in an advisory and online support capacity for the 2026 fieldwork, ensured that our scientific design was built on rigorous methodological precedent.</p>
+<p>Padmini Pani at JNU brings a different but equally indispensable form of expertise. She is arguably the scholar who has done more than anyone else to document the human dimensions of the Chambal Badlands – her research spanning gully morphology, land degradation, land levelling dynamics, socioeconomic vulnerability, and geoheritage potential represents an unparalleled empirical base for the region. Her long-running work on ravine-livelihoods linkages and her contributions to the geoheritage literature on the Chambal demonstrate that she understands this landscape not only as a geomorphic system but as a living social and economic space. Her presence in the field – and the community engagement work she led with Shashi in Guda Chambal, Barsaini, and Chinoni – meant that the socioeconomic and geoheritage dimensions of the project were not afterthoughts layered onto the geomorphology, but genuinely co-equal research threads.</p>
+<figure>
+<img src="2026-03-13-chambal-fieldwork-ispf_files/media/image2.jpeg" style="width:6.26806in;height:4.70104in" />
+<figcaption><p>2. Professor Padmini Pani interacting with the inhabitants of the Chambal badlands. Photo – Shashi S. Shukla.</p></figcaption>
+</figure>
+<p>Vikrant Jain at IIT Gandhinagar is one of India's foremost fluvial geomorphologists, with a research programme spanning quantitative geomorphology, river science, sediment connectivity, and the responses of Indian river systems to tectonic and climatic forcing across Quaternary timescales. His prior collaborative work on late Pleistocene erosion rates and his broad experience with Indian river systems from the Kosi to the Sabarmati made him ideally placed to contextualise what we were observing in the Chambal within a national and Quaternary-scale frame. He was present for some of the most technically demanding fieldwork – OSL sampling at the Nawali Brindawan oxbow cliff and DGPS surveys – and his instinct for where to find stratigraphic information in a badland section proved invaluable.</p>
+<p>One addition to the team deserves a particular note. Sandeep Thakur from Ramanujan College, University of Delhi was not part of the original proposal – he joined the campaign at a late stage, an addition that in retrospect felt entirely natural and necessary. Sandeep is an environmental geologist and Assistant Professor whose research spans geological mapping, remote sensing, GIS, coastal processes, and palaeoclimate, and who brings the kind of field instinct that comes from years of work with the Geological Survey of India across diverse and often demanding terrains. That GSI background – the capacity to read a landscape quickly, to work methodically under field conditions, to adapt when plans change – was immediately apparent in the field. He was consistently among the most active members of the team during sampling, and his familiarity with working across geological and geomorphological scales helped bridge conversations between team members whose disciplinary framings did not always overlap. That someone of Sandeep's calibre joined at short notice and threw himself into the work so completely is a reminder of how much goodwill this project has generated among colleagues who share a genuine curiosity about this landscape.</p>
+<p>Then there was Vikram Ranga from Central University of Haryana – and I use the word "then" loosely, because in practice Vikram was everywhere at once. His role went far beyond science. He had cultivated an extraordinary network of local contacts across the Morena and Bhind districts over his years of working in the region, and those contacts proved indispensable in ways that no proposal budget line can fully capture. From securing access to private agricultural land abutting badland cliffs, to connecting us with the local resource persons who knew where the paths were safe and where they were not, to managing the countless logistical negotiations that a fifteen-person mobile field operation inevitably generates, Vikram handled it all with a calm efficiency that made the rest of us look considerably less competent than we probably are. The badlands, as several team members quickly discovered, are not a landscape you can simply walk into and navigate by map alone – the paths between <em>dhands</em> are not marked, and the topography is disorienting in a way that satellite imagery does not prepare you for. It was the local villagers, connected to us through Vikram's networks and their own generous instinct to help, who guided us along paths that would otherwise have remained inaccessible. The success of the campaign owes as much to them as to any piece of scientific equipment we brought.</p>
+<figure>
+<img src="2026-03-13-chambal-fieldwork-ispf_files/media/image3.jpeg" style="width:6.26806in;height:8.35764in" />
+<figcaption><p>3. Dr Vikram Ranga, in his natural habitat! Photo – Shashi S. Shukla.</p></figcaption>
+</figure>
+<p>Beyond these individuals, the team assembled for this project was remarkable not only for its disciplinary breadth but for the sheer range of academic career stages it brought together under a single field endeavour. From senior professors with decades of published scholarship – Padmini Pani, Vikrant Jain, Stephen Tooth – to mid-career researchers such as Amzad Laskar, Naveen Chauhan, and Vikram Ranga, to early-career scientists like Anukritika, Shashi, and Malika, to PhD candidates still in the midst of their doctoral work – Jayesh and Ajay – the team spanned virtually every rung of the academic ladder. This was not incidental. One of the explicit ambitions of the project is to build research capacity, and having early-career scientists work shoulder-to-shoulder with experienced practitioners across OSL sampling, DGPS surveying, isotope collection, and community engagement is precisely the kind of experiential training that a classroom cannot replicate. A colleague, watching the team in action one afternoon, remarked to me with a grin that they could not quite understand how I had managed to assemble such an enthusiastic and energetic group. I did not have a good answer in the moment. The honest one, I think, is that the landscape did most of the recruiting – there is something about the Chambal that makes it very difficult to say no to.</p>
+<figure>
+<img src="2026-03-13-chambal-fieldwork-ispf_files/media/image4.jpeg" style="width:6.26806in;height:4.70139in" />
+<figcaption><p>4. The DGPS team, the Young Turks.</p></figcaption>
+</figure>
+<p>The campaign did not begin smoothly. Our train from Delhi was delayed, and we arrived in Morena close to midnight on the 9th of January – tired, hungry, and knowing that the first full day of fieldwork would begin at dawn regardless. It did. The team was up and moving early the next morning with a matter-of-factness that set the tone for everything that followed. Over 3,000 kilometres were covered after we arrived on site. Meals were often a casualty of the schedule: we were frequently far from any town, deep in the ravines or along remote river banks, and more than once the working day ended without anyone having had lunch. Nobody complained. The junior members of the team, many of whom had studied the Chambal in lectures and papers but never stood inside it, were visibly struck by the sheer physical scale of the landscape – the vastness of the ravine networks stretching to the horizon, the height of the cliff sections, the spatial extent of a system that photographs simply cannot convey. Watching that realisation unfold on their faces over the first couple of days was, for me, one of the quiet pleasures of the campaign. Across every kilometre, the commitment of this team was unfailing.</p>
+<p>Scientifically, the eight days exceeded what I had dared to hope for. The seventeen OSL samples collected across the Chambal, Yamuna, and Kunwari systems represent the first systematic geochronological transect ever attempted in the Lower Chambal Valley – a conspicuous absence in the literature that several of us had noted with some frustration. The paleochannel core near Piprahi, the CO₂ flux measurements at the Nawali Brindawan oxbow, the pothole surveys at Rahu ka Ghat and the Ken River near Panna, the stable isotope samples from groundwater and river water, the confluence sediments from the Chambal–Yamuna and Ken–Yamuna junctions – each dataset addresses a different facet of a system whose drivers are deeply entangled. Together, I believe they will allow us to test whether badland formation in this region was driven by a single, region-wide geomorphic trigger or by a mosaic of local controls operating at different timescales – and to answer, at last, the foundational questions the 2024 recce left open: when and why did this landscape become what it is?</p>
+<figure>
+<img src="2026-03-13-chambal-fieldwork-ispf_files/media/image5.jpeg" style="width:6.26806in;height:8.35764in" />
+<figcaption><p>5. A subset of the full team, along with local villagers.</p></figcaption>
+</figure>
+<p>Some of the most affecting moments of the campaign, however, had nothing to do with sampling. The conversations our team had with farming families in Guda Chambal, Barsaini, and Chinoni – led so sensitively by Padmini and Shashi – are eye opening. People described watching gullies advance towards their fields over the course of a single lifetime, of relatives who had shifted villages once already and worried about shifting again. The District Magistrate's willingness to engage seriously with geo-tourism, to take our pamphlets, to discuss how scientific evidence might inform local policy – that gave me genuine hope. The project has direct relevance to India's commitment to land degradation neutrality by 2030 under SDG 15, and to the broader goals of poverty reduction and climate resilience in one of rural India's most vulnerable regions. Science that cannot find its way back to the people living inside the landscape it studies has, I think, missed something important.</p>
+<figure>
+<img src="2026-03-13-chambal-fieldwork-ispf_files/media/image6.jpeg" style="width:6.26806in;height:4.70139in" />
+<figcaption><p>6. The team, after full day's work at the oxbow site.</p></figcaption>
+</figure>
+<p>What comes next is in many ways the harder part. The laboratory analyses will take time, and the process of turning raw ages and isotopic ratios into publishable arguments will demand as much intellectual effort as the fieldwork itself – and then some more. But I am confident in the datasets we have assembled, and more importantly, in the team that will analyse them. In the immediate term, we will integrate remote sensing and DEM-based terrain analysis at AU, IITGN, and CUH with the geochronological work underway at PRLA, working towards a shared manuscript and the longer-term grant proposal that this project was always intended to seed. I hope the project can be extended – to include the paleochannels north of the Chambal that Vikram has rightly flagged, to deepen the community engagement work that Padmini and Shashi have begun, and to develop the geoheritage mapping and infographics being led by Stephen that will eventually reach local schools, district administrators, and the inhabitants of the badlands themselves. The Chambal has waited a long time for this kind of sustained scientific attention. I intend to make sure the wait was worthwhile.</p>
+<figure>
+<img src="2026-03-13-chambal-fieldwork-ispf_files/media/image7.jpeg" style="width:6.26806in;height:4.70139in" />
+<figcaption><p>7. The majestic potholes of Ken (or Karnavati) River, near Panna.</p></figcaption>
+</figure>
+</main>
+
+<!-- BACK LINK -->
+<div class="post-footer">
+  <a class="back-link" href="../index.html#blog">← Back to all posts</a>
+</div>
+
+<!-- SITE FOOTER -->
+<footer>
+  <a href="../index.html">manudeo.github.io</a> &nbsp;·&nbsp; Dr. Manudeo Singh &nbsp;·&nbsp; Aberystwyth University
+</footer>
+
+</body>
+</html>
