@@ -165,7 +165,25 @@
     font-style: normal;
   }
 
-  .post-body img { max-width: 100%; height: auto; }
+  .post-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Pandoc wraps images in a div.float or p — make those responsive too */
+  .post-body p > img,
+  .post-body div > img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Constrain figure+caption blocks */
+  .post-body figure {
+    max-width: 100%;
+    overflow: hidden;
+  }
 
   .post-body table {
     width: 100%; border-collapse: collapse;
