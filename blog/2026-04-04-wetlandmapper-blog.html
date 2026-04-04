@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automate the wetland mapping · Manudeo Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1c2b4a;
+    --navy-light: #2d4070;
+    --gold: #b8943f;
+    --gold-light: #d4b060;
+    --cream: #f7f2ea;
+    --cream-dark: #ede5d6;
+    --text: #2a2a2a;
+    --text-muted: #5a5a5a;
+    --text-light: #8a8a8a;
+    --white: #ffffff;
+    --border: #d6cfc4;
+    --section-alt: #f0ebe1;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--navy);
+    border-bottom: 3px solid var(--gold);
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 780px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--cream); text-decoration: none; letter-spacing: 0.03em;
+  }
+  .nav-brand span { color: var(--gold-light); }
+  .nav-back {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(247,242,234,0.65); text-decoration: none;
+    padding: 0.3rem 0.75rem; border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 2px; transition: all 0.2s;
+  }
+  .nav-back:hover { color: var(--gold-light); border-color: var(--gold-light); }
+
+  /* ── POST HEADER ── */
+  .post-header {
+    background: var(--navy);
+    padding: 4rem 2rem 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .post-header-inner { max-width: 780px; margin: 0 auto; }
+  .post-breadcrumb {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 1.2rem;
+  }
+  .post-breadcrumb a { color: var(--gold-light); text-decoration: none; }
+  .post-breadcrumb a:hover { text-decoration: underline; }
+  .post-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    font-weight: 600; line-height: 1.2;
+    color: var(--cream); margin-bottom: 1.2rem;
+    letter-spacing: -0.01em;
+  }
+  .post-meta {
+    display: flex; flex-wrap: wrap; gap: 1.25rem;
+    align-items: center;
+  }
+  .post-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.08em;
+    color: rgba(247,242,234,0.55);
+  }
+  .post-tags { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+  .post-tag {
+    padding: 0.18rem 0.65rem;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.76rem; font-style: italic;
+    border: 1px solid rgba(184,148,63,0.4);
+    color: var(--gold-light); border-radius: 20px;
+  }
+
+  /* ── POST BODY ── */
+  .post-body {
+    max-width: 780px; margin: 0 auto;
+    padding: 3.5rem 2rem 5rem;
+  }
+
+  /* Typography */
+  .post-body p { margin-bottom: 1.4rem; font-size: 1.05rem; color: #35302a; }
+  .post-body p:last-child { margin-bottom: 0; }
+
+  .post-body h1, .post-body h2, .post-body h3, .post-body h4 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--navy); line-height: 1.25;
+    margin-top: 2.5rem; margin-bottom: 0.75rem;
+  }
+  .post-body h1 { font-size: 2rem; font-weight: 600; }
+  .post-body h2 {
+    font-size: 1.6rem; font-weight: 600;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-body h3 { font-size: 1.3rem; font-weight: 500; }
+  .post-body h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-top: 2rem;
+  }
+
+  .post-body a { color: var(--navy-light); text-decoration: underline; text-underline-offset: 3px; }
+  .post-body a:hover { color: var(--gold); }
+
+  .post-body strong { font-weight: 600; color: var(--navy); }
+  .post-body em { font-style: italic; }
+
+  .post-body ul, .post-body ol {
+    margin: 0 0 1.4rem 1.5rem;
+    font-size: 1.02rem;
+  }
+  .post-body li { margin-bottom: 0.4rem; }
+
+  .post-body blockquote {
+    border-left: 3px solid var(--gold);
+    padding: 0.75rem 1.25rem;
+    margin: 2rem 0;
+    background: var(--section-alt);
+    border-radius: 0 4px 4px 0;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+  .post-body blockquote p { margin-bottom: 0; font-size: 1rem; }
+
+  .post-body figure {
+    margin: 2rem 0;
+    text-align: center;
+  }
+  .post-body figure img {
+    max-width: 100%; height: auto;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .post-body figcaption {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.05em;
+    color: var(--text-light); margin-top: 0.6rem;
+    font-style: normal;
+  }
+
+  .post-body img {
+    max-width: 100% !important;
+    height: auto !important;
+    width: auto;
+    display: block;
+  }
+
+  /* Pandoc wraps images in a div.float or p — make those responsive too */
+  .post-body p > img,
+  .post-body div > img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+  }
+
+  /* Constrain figure+caption blocks */
+  .post-body figure {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .post-body table {
+    width: 100%; border-collapse: collapse;
+    margin: 1.5rem 0; font-size: 0.9rem;
+  }
+  .post-body th {
+    background: var(--navy); color: var(--cream);
+    padding: 0.6rem 0.9rem; text-align: left;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.06em; font-weight: 700;
+  }
+  .post-body td {
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .post-body tr:nth-child(even) td { background: var(--section-alt); }
+
+  .post-body hr {
+    border: none; border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  .post-body code {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.83em;
+    background: var(--section-alt);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+  .post-body pre {
+    background: var(--navy);
+    padding: 1.25rem 1.5rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  .post-body pre code {
+    background: none; border: none; padding: 0;
+    font-size: 0.82rem; color: var(--cream-dark);
+    line-height: 1.65;
+  }
+
+  /* ── BACK LINK ── */
+  .post-footer {
+    max-width: 780px; margin: 0 auto;
+    padding: 0 2rem 3rem;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--navy-light); text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border); border-radius: 2px;
+    background: var(--white);
+    transition: all 0.2s;
+  }
+  .back-link:hover { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+
+  /* ── SITE FOOTER ── */
+  footer {
+    background: var(--navy);
+    border-top: 3px solid var(--gold);
+    padding: 2rem;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: rgba(247,242,234,0.35);
+  }
+  footer a { color: rgba(247,242,234,0.5); text-decoration: none; }
+  footer a:hover { color: var(--gold-light); }
+
+  @media (max-width: 600px) {
+    .post-header { padding: 2.5rem 1.25rem 2rem; }
+    .post-body { padding: 2.5rem 1.25rem 4rem; }
+    .post-footer { padding: 0 1.25rem 2.5rem; padding-top: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="../index.html">Dr. <span>Manudeo Singh</span></a>
+    <a class="nav-back" href="../index.html#blog">← Blog</a>
+  </div>
+</nav>
+
+<!-- POST HEADER -->
+<header class="post-header">
+  <div class="post-header-inner">
+    <div class="post-breadcrumb">
+      <a href="../index.html">Home</a> &nbsp;/&nbsp; <a href="../index.html#blog">Blog</a> &nbsp;/&nbsp; Post
+    </div>
+    <h1 class="post-title">Automate the wetland mapping</h1>
+    <div class="post-meta">
+      <span class="post-date">4 April 2026</span>
+      <div class="post-tags">
+        <span class="post-tag">GIS</span>
+        <span class="post-tag">Jupyter Notebook</span>
+        <span class="post-tag">Wetland Dynamics</span>
+        <span class="post-tag">Open-source</span>
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- POST BODY (Pandoc inserts converted Word content here) -->
+<main class="post-body">
+<h1 id="mapping-wetlands-from-space-a-step-by-step-guide-for-gis-users">Mapping Wetlands from Space – A Step-by-Step Guide for GIS Users</h1>
+<h2 id="no-coding-experience-required">No coding experience required</h2>
+<p><em>By Manudeo Singh | Aberystwyth University</em></p>
+<hr />
+<p>You know wetlands. You know GIS. You have probably used QGIS or ArcGIS to visualise satellite imagery, drawn polygons around floodplains, and stared at Landsat scenes trying to figure out which pixels are water and which are just muddy soil catching the sun at the wrong angle.</p>
+<p>What if you could automate all of that – for any wetland on Earth, across 40 years of satellite data, and get a map showing not just <em>where</em> the wetland is but <em>how it has changed</em> – which areas are shrinking, which are recovering, which have appeared in the last five years?</p>
+<p>That is what WetlandMapper does. This guide will take you from a fresh computer to a working wetland map, step by step.</p>
+<hr />
+<h2 id="what-you-will-need">What you will need</h2>
+<ul>
+<li>A computer (Windows, Mac, or Linux)</li>
+<li>A Google account (for Google Earth Engine)</li>
+<li>About an hour of time</li>
+<li>No prior Python experience</li>
+</ul>
+<hr />
+<h2 id="part-1-install-miniconda">Part 1: Install Miniconda</h2>
+<p>Miniconda is a small programme that manages Python and all the tools WetlandMapper needs. Think of it like a clean room – it keeps everything organised and prevents conflicts with anything else on your computer.</p>
+<h3 id="windows">Windows</h3>
+<ol type="1">
+<li>Go to <strong>https://docs.conda.io/en/latest/miniconda.html</strong></li>
+<li>Click <strong>Miniconda3 Windows 64-bit</strong> and download the installer</li>
+<li>Run the <code>.exe</code> file. Accept all defaults. When asked about “Add Miniconda to PATH”, tick <strong>Yes</strong></li>
+<li>Once installed, open the <strong>Start Menu</strong> and search for <strong>Anaconda Prompt</strong>. Open it. You will see a black window with <code>(base)</code> at the start of the line — this means Miniconda is working.</li>
+</ol>
+<h3 id="mac">Mac</h3>
+<ol type="1">
+<li>Go to <strong>https://docs.conda.io/en/latest/miniconda.html</strong></li>
+<li>Download <strong>Miniconda3 macOS Apple M1/M2</strong> (for newer Macs) or <strong>macOS Intel</strong> (for older Macs)</li>
+<li>Open your <strong>Terminal</strong> (search for it in Spotlight with ⌘+Space)</li>
+<li>Run the downloaded <code>.pkg</code> installer</li>
+<li>Close and reopen Terminal. You should see <code>(base)</code> at the start of the line.</li>
+</ol>
+<h3 id="linux">Linux</h3>
+<p>Open a terminal and run:</p>
+<pre><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh</code></pre>
+<p>Follow the prompts and accept the default location.</p>
+<hr />
+<h2 id="part-2-create-a-wetlandmapper-environment">Part 2: Create a WetlandMapper Environment</h2>
+<p>A conda <em>environment</em> is like a separate workspace with its own set of tools. Creating one for WetlandMapper keeps it isolated from anything else on your computer.</p>
+<p>Open your <strong>Anaconda Prompt</strong> (Windows) or <strong>Terminal</strong> (Mac/Linux) and type these commands one at a time, pressing Enter after each:</p>
+<pre><code>conda create -n wetlands python=3.11 -y</code></pre>
+<p>This creates a new environment called <code>wetlands</code> with Python 3.11. It will take a minute.</p>
+<pre><code>conda activate wetlands</code></pre>
+<p>Your prompt should now show <code>(wetlands)</code> instead of <code>(base)</code>. You are now inside the wetlands workspace.</p>
+<pre><code>conda install -c conda-forge wetlandmapper jupyterlab -y</code></pre>
+<p>This installs WetlandMapper and JupyterLab (the notebook interface). It will take several minutes – this is normal.</p>
+<pre><code>pip install &quot;wetlandmapper[gee]&quot;</code></pre>
+<p>This adds the Google Earth Engine connection.</p>
+<p><strong>To verify the installation worked</strong>, type:</p>
+<pre><code>python -c &quot;import wetlandmapper; print(wetlandmapper.__version__)&quot;</code></pre>
+<p>You should see <code>1.0.5</code> (or similar) printed. If you see an error, check that you typed the commands exactly as shown.</p>
+<blockquote>
+<p><strong>Every time you open a new terminal</strong>, you need to run <code>conda activate wetlands</code> before using WetlandMapper. If you see <code>ModuleNotFoundError</code>, this is almost always because you forgot to activate the environment.</p>
+</blockquote>
+<hr />
+<h2 id="part-3-set-up-google-earth-engine">Part 3: Set Up Google Earth Engine</h2>
+<p>Google Earth Engine (GEE) is a cloud platform that gives you free access to the entire Landsat archive – every satellite image taken since 1972 – plus Sentinel-2, MODIS, and dozens of other datasets. WetlandMapper uses GEE to download the data it needs.</p>
+<h3 id="step-1-create-a-gee-account">Step 1: Create a GEE account</h3>
+<ol type="1">
+<li>Go to <strong>https://earthengine.google.com</strong></li>
+<li>Click <strong>Get Started</strong></li>
+<li>Sign in with your Google account</li>
+<li>Click <strong>Register a Noncommercial/Research Project</strong></li>
+<li>Choose <strong>Unpaid usage</strong> → <strong>Academia or Research</strong></li>
+<li>Fill in the project details (your institution, use case – “wetland mapping research” is fine)</li>
+<li>Note your <strong>project ID</strong> – it will look like <code>my-wetland-project</code> or similar</li>
+</ol>
+<p>Approval is usually instant but can take up to 24 hours.</p>
+<h3 id="step-2-authenticate-on-your-computer">Step 2: Authenticate on your computer</h3>
+<p>In your Anaconda Prompt / Terminal (with the <code>wetlands</code> environment active), run:</p>
+<pre><code>earthengine authenticate</code></pre>
+<p>This will open a browser window asking you to sign in with your Google account and grant permission. Click <strong>Allow</strong>. You will see a confirmation code – copy it and paste it back into the terminal.</p>
+<p>You only need to do this once per computer.</p>
+<hr />
+<h2 id="part-4-launch-jupyterlab">Part 4: Launch JupyterLab</h2>
+<p>JupyterLab is a notebook interface – like a combination of a Word document and a calculator where you can write and run code cell by cell.</p>
+<p>In your terminal, type:</p>
+<pre><code>jupyter lab</code></pre>
+<p>A browser window will open automatically. If it does not, copy the address starting with <code>http://localhost:8888/...</code> from the terminal and paste it into your browser.</p>
+<p>You will see a file browser on the left. Click the <strong>+</strong> button (or File → New → Notebook) and select <strong>Python 3</strong> when asked.</p>
+<hr />
+<h2 id="part-5-your-first-wetland-map">Part 5: Your First Wetland Map</h2>
+<p>A JupyterLab notebook is made of <em>cells</em>. You type code into a cell and press <strong>Shift+Enter</strong> to run it. Click on a cell to select it.</p>
+<h3 id="cell-1-check-wetlandmapper-is-working">Cell 1: Check WetlandMapper is working</h3>
+<p>Click inside the first cell, type the following, and press <strong>Shift+Enter</strong>:</p>
+<pre><code>import wetlandmapper
+print(&quot;WetlandMapper version:&quot;, wetlandmapper.__version__)
+print(&quot;Ready to map wetlands!&quot;)</code></pre>
+<p>You should see the version number printed below the cell.</p>
+<h3 id="cell-2-connect-to-google-earth-engine">Cell 2: Connect to Google Earth Engine</h3>
+<pre><code>import ee
+
+# Replace with your GEE project ID
+ee.Initialize(project=&#39;your-project-id-here&#39;)
+print(&quot;Connected to Google Earth Engine&quot;)</code></pre>
+<p>Replace <code>your-project-id-here</code> with the project ID you noted in Part 3.</p>
+<h3 id="cell-3-define-your-wetland-area">Cell 3: Define your wetland area</h3>
+<p>You can define your study area in two ways:</p>
+<p><strong>Option A – Draw a bounding box</strong> (simplest – use Google Maps to find your coordinates):</p>
+<pre><code># Coordinates: West, South, East, North
+# This example uses part of Chilika Lake, Odisha, India
+aoi = {
+    &#39;type&#39;: &#39;Polygon&#39;,
+    &#39;coordinates&#39;: [[[85.05, 19.65],
+                     [85.55, 19.65],
+                     [85.55, 19.95],
+                     [85.05, 19.95],
+                     [85.05, 19.65]]]
+}
+print(&quot;Study area defined&quot;)</code></pre>
+<blockquote>
+<p><strong>How to find your coordinates:</strong> Go to Google Maps, right-click on a corner of your study area, and click the coordinates at the top of the menu. Note the latitude (first number) and longitude (second number) for all four corners of a rectangle around your wetland.</p>
+</blockquote>
+<p><strong>Option B – Use a shapefile you already have:</strong></p>
+<pre><code>import geopandas as gpd
+
+# Load your shapefile (or .geojson, .gpkg — any format QGIS can open)
+gdf = gpd.read_file(&#39;my_wetland_boundary.shp&#39;)
+
+# Convert to the GeoJSON format WetlandMapper expects
+aoi = gdf.dissolve().geometry.iloc[0].__geo_interface__
+print(&quot;Shapefile loaded:&quot;, len(gdf), &quot;features dissolved to 1 polygon&quot;)</code></pre>
+<h3 id="cell-4-download-mndwi-data">Cell 4: Download MNDWI data</h3>
+<pre><code>from wetlandmapper.gee import fetch_xee
+
+print(&quot;Downloading data from Google Earth Engine...&quot;)
+print(&quot;(This may take a few minutes depending on your area size)&quot;)
+
+mndwi_lazy = fetch_xee(
+    aoi,
+    start=&#39;2000-01-01&#39;,
+    end=&#39;2023-12-31&#39;,
+    sensor=&#39;LandsatAll&#39;,     # uses all Landsat missions 1982-present
+    index=&#39;MNDWI&#39;,
+    scale=30,                # 30 metre pixels
+    temporal_aggregation=&#39;annual&#39;,  # one image per year
+)
+
+# Rename coordinates
+mndwi_lazy = mndwi_lazy.rename({&#39;lat&#39;: &#39;y&#39;, &#39;lon&#39;: &#39;x&#39;})
+mndwi_lazy = mndwi_lazy.transpose(&#39;time&#39;, &#39;y&#39;, &#39;x&#39;)
+
+# Download the actual data
+mndwi = mndwi_lazy.compute()
+print(f&quot;Downloaded! {mndwi.time.size} annual images, {mndwi.sizes[&#39;y&#39;]}×{mndwi.sizes[&#39;x&#39;]} pixels&quot;)</code></pre>
+<h3 id="cell-5-classify-wetland-dynamics">Cell 5: Classify wetland dynamics</h3>
+<pre><code>from wetlandmapper import classify_dynamics, DYNAMICS_CLASSES, DYNAMICS_COLORS
+
+dynamics = classify_dynamics(
+    mndwi,
+    nYear=3,           # compare first 3 years vs last 3 years
+    thresholdWet=25,   # pixel must be wet 25% of years to count as wetland
+    thresholdPersis=75 # pixel wet 75%+ of years = Persistent wetland
+)
+
+# Count pixels in each class
+import pandas as pd
+px_km2 = 0.03 * 0.03  # area of one 30m pixel in km²
+summary = pd.DataFrame([
+    {
+        &#39;Class&#39;: DYNAMICS_CLASSES[c],
+        &#39;Pixels&#39;: int((dynamics == c).sum()),
+        &#39;Area (km²)&#39;: round(int((dynamics == c).sum()) * px_km2, 2)
+    }
+    for c in sorted(DYNAMICS_CLASSES.keys())
+])
+print(summary.to_string(index=False))</code></pre>
+<h3 id="cell-6-make-a-map">Cell 6: Make a map</h3>
+<pre><code>import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+import matplotlib.colors as mcolors
+
+# Set up colours for each class
+dyn_codes  = sorted(DYNAMICS_CLASSES.keys())
+dyn_colors = [DYNAMICS_COLORS[c] for c in dyn_codes]
+cmap       = mcolors.ListedColormap(dyn_colors)
+norm       = mcolors.BoundaryNorm(
+    [c - 0.5 for c in dyn_codes] + [dyn_codes[-1] + 0.5],
+    cmap.N
+)
+
+fig, ax = plt.subplots(figsize=(10, 8))
+ax.imshow(
+    dynamics.values,
+    cmap=cmap, norm=norm,
+    origin=&#39;upper&#39;,
+    extent=[float(mndwi.x.min()), float(mndwi.x.max()),
+            float(mndwi.y.min()), float(mndwi.y.max())]
+)
+ax.set_xlabel(&#39;Longitude&#39;)
+ax.set_ylabel(&#39;Latitude&#39;)
+ax.set_title(&#39;Wetland Dynamics 2000–2023&#39;, fontsize=14, fontweight=&#39;bold&#39;)
+
+# Add legend
+patches = [
+    mpatches.Patch(color=DYNAMICS_COLORS[c], label=DYNAMICS_CLASSES[c])
+    for c in dyn_codes
+]
+ax.legend(handles=patches, loc=&#39;lower right&#39;, fontsize=9)
+
+plt.tight_layout()
+plt.savefig(&#39;wetland_dynamics_map.png&#39;, dpi=200, bbox_inches=&#39;tight&#39;)
+plt.show()
+print(&quot;Map saved as wetland_dynamics_map.png&quot;)</code></pre>
+<p>Your first wetland dynamics map will appear directly in the notebook.</p>
+<hr />
+<h2 id="part-6-save-your-results-as-geotiff">Part 6: Save Your Results as GeoTIFF</h2>
+<p>A GeoTIFF is a standard raster format that QGIS, ArcGIS, and most GIS software can open directly. It preserves the geographic coordinates so your map will line up correctly with other data.</p>
+<pre><code>import rioxarray  # adds GIS capabilities to our data
+
+# Add coordinate system (WGS84 — standard geographic coordinates)
+dynamics_save = dynamics.astype(&#39;int8&#39;)
+dynamics_save = dynamics_save.rio.write_crs(&#39;EPSG:4326&#39;)
+dynamics_save = dynamics_save.rio.write_nodata(-128)
+
+# Save as GeoTIFF
+dynamics_save.rio.to_raster(&#39;wetland_dynamics.tif&#39;)
+print(&quot;Saved: wetland_dynamics.tif&quot;)
+
+# Also save wet frequency map
+from wetlandmapper import compute_wet_frequency
+wet_freq = compute_wet_frequency(mndwi)
+wet_freq_save = wet_freq.rio.write_crs(&#39;EPSG:4326&#39;)
+wet_freq_save.rio.to_raster(&#39;wet_frequency.tif&#39;)
+print(&quot;Saved: wet_frequency.tif&quot;)</code></pre>
+<hr />
+<h2 id="part-7-open-your-maps-in-qgis">Part 7: Open Your Maps in QGIS</h2>
+<ol type="1">
+<li>Open <strong>QGIS</strong></li>
+<li>Go to <strong>Layer → Add Layer → Add Raster Layer</strong></li>
+<li>Click <strong>Browse</strong> and find <code>wetland_dynamics.tif</code> (it will be in the same folder where you launched JupyterLab – usually your home folder or Documents)</li>
+<li>Click <strong>Add</strong></li>
+</ol>
+<p>The map will load as a single-band raster. To apply the correct colours:</p>
+<ol type="1">
+<li>Right-click the layer in the Layers panel → <strong>Properties</strong></li>
+<li>Go to <strong>Symbology</strong></li>
+<li>Change the render type from <strong>Singleband gray</strong> to <strong>Paletted/Unique values</strong></li>
+<li>Click <strong>Classify</strong> – QGIS will detect the class values (0, 2, 3, 4, 5, 6, 10)</li>
+<li>Double-click each colour swatch to match the WetlandMapper colour scheme:</li>
+</ol>
+<table style="width:48%;">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 16%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr>
+<th>Value</th>
+<th>Class</th>
+<th>Suggested colour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Non-wetland</td>
+<td>Light grey <code>#f2f3f4</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>New</td>
+<td>Purple <code>#8e44ad</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Lost</td>
+<td>Red <code>#c0392b</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Diminishing</td>
+<td>Orange <code>#e67e22</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Intensifying</td>
+<td>Green <code>#2ecc71</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Intermittent</td>
+<td>Teal <code>#76d7c4</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Persistent</td>
+<td>Dark blue <code>#1a5276</code></td>
+</tr>
+</tbody>
+</table>
+<ol start="6" type="1">
+<li>Click <strong>OK</strong></li>
+</ol>
+<p>You can now add basemaps (Google Satellite, OpenStreetMap) using the <strong>QuickMapServices</strong> plugin in QGIS to see your wetland map in geographic context.</p>
+<h3 id="adding-a-basemap-in-qgis">Adding a basemap in QGIS</h3>
+<ol type="1">
+<li>Go to <strong>Plugins → Manage and Install Plugins</strong></li>
+<li>Search for <strong>QuickMapServices</strong> and click <strong>Install</strong></li>
+<li>Go to <strong>Web → QuickMapServices → Google → Google Satellite</strong></li>
+</ol>
+<p>Your dynamics map will now be draped over satellite imagery.</p>
+<hr />
+<h2 id="part-8-wetland-cover-types-wct">Part 8: Wetland Cover Types (WCT)</h2>
+<p>Beyond dynamics, WetlandMapper can tell you <em>what</em> is at the wetland surface — open water, turbid water, submerged vegetation, emergent vegetation, or moist soil. This is based on three indices combined.</p>
+<pre><code>from wetlandmapper.gee import fetch_xee
+from wetlandmapper import classify_wct_ema, WCT_CLASSES, WCT_COLORS
+
+# Fetch all three required indices for a single reference year
+print(&quot;Fetching MNDWI, NDVI, NDTI for 2022...&quot;)
+indices_lazy = fetch_xee(
+    aoi,
+    start=&#39;2022-01-01&#39;,
+    end=&#39;2022-12-31&#39;,
+    sensor=&#39;LandsatAll&#39;,
+    index=[&#39;MNDWI&#39;, &#39;NDVI&#39;, &#39;NDTI&#39;],
+    scale=30,
+    temporal_aggregation=&#39;annual&#39;,
+)
+indices_lazy = indices_lazy.rename({&#39;lat&#39;: &#39;y&#39;, &#39;lon&#39;: &#39;x&#39;})
+indices_lazy = indices_lazy.transpose(&#39;time&#39;, &#39;y&#39;, &#39;x&#39;)
+indices = indices_lazy.compute()
+
+# Single year composite
+indices_2022 = indices.isel(time=0)
+
+# Classify
+wct_result = classify_wct_ema(indices_2022)
+wct_map    = wct_result[&#39;wetland_cover_type&#39;]
+combo_map  = wct_result[&#39;combination_code&#39;]
+
+# Quick summary
+for c in sorted(WCT_CLASSES.keys()):
+    n = int((wct_map == c).sum())
+    print(f&quot;  {WCT_CLASSES[c]}: {n} pixels ({n * px_km2:.2f} km²)&quot;)
+# Plot WCT map
+wct_codes   = sorted(WCT_CLASSES.keys())
+wct_clrs    = [WCT_COLORS[c] for c in wct_codes]
+cmap_wct    = mcolors.ListedColormap(wct_clrs)
+norm_wct    = mcolors.BoundaryNorm(
+    [c - 0.5 for c in wct_codes] + [wct_codes[-1] + 0.5], cmap_wct.N
+)
+
+fig, ax = plt.subplots(figsize=(10, 8))
+ax.imshow(wct_map.values, cmap=cmap_wct, norm=norm_wct,
+          origin=&#39;upper&#39;,
+          extent=[float(indices.x.min()), float(indices.x.max()),
+                  float(indices.y.min()), float(indices.y.max())])
+ax.set_title(&#39;Wetland Cover Types — 2022&#39;, fontsize=14, fontweight=&#39;bold&#39;)
+ax.set_xlabel(&#39;Longitude&#39;); ax.set_ylabel(&#39;Latitude&#39;)
+patches_wct = [mpatches.Patch(color=WCT_COLORS[c], label=WCT_CLASSES[c])
+               for c in wct_codes]
+ax.legend(handles=patches_wct, loc=&#39;lower right&#39;, fontsize=8)
+plt.tight_layout()
+plt.savefig(&#39;wct_2022.png&#39;, dpi=200, bbox_inches=&#39;tight&#39;)
+plt.show()
+
+# Save as GeoTIFF for QGIS
+wct_save = wct_map.astype(&#39;int8&#39;).rio.write_crs(&#39;EPSG:4326&#39;)
+wct_save.rio.to_raster(&#39;wct_2022.tif&#39;)
+print(&quot;Saved: wct_2022.tif&quot;)</code></pre>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p><strong>“ModuleNotFoundError: No module named ‘wetlandmapper’”</strong> You forgot to activate the conda environment. Run <code>conda activate wetlands</code> and try again.</p>
+<p><strong>“No such file or directory: earthengine”</strong> Run <code>pip install earthengine-api</code> and then <code>earthengine authenticate</code>.</p>
+<p><strong>The map is blank or all zeros</strong> Your AOI may have no data. Check that your coordinates are correct (longitude first, then latitude in GeoJSON format). Also try increasing <code>max_cloud_cover=40</code>.</p>
+<p><strong>“EEException: Computation timed out”</strong> Your area is too large. Try a smaller bounding box or use <code>scale=100</code> for a coarser resolution that downloads faster.</p>
+<p><strong>Jupyter shows the map but it looks wrong (stretched or in wrong place)</strong> Make sure you ran the <code>.rename({'lat': 'y', 'lon': 'x'})</code> and <code>.transpose()</code> lines after <code>fetch_xee</code>.</p>
+<p><strong>“CLOUD_COVER: No such property”</strong> You are using Sentinel-2 but the cloud property name is different. Add <code>max_cloud_cover=20</code> explicitly to your <code>fetch_xee</code> call.</p>
+<hr />
+<h2 id="quick-reference-card">Quick Reference Card</h2>
+<pre><code>Every new session:
+  1. Open Anaconda Prompt / Terminal
+  2. conda activate wetlands
+  3. jupyter lab
+
+Key parameters:
+  sensor:        &#39;LandsatAll&#39;  1982-present, best for long records
+                 &#39;Landsat8&#39;    2013-present, single mission
+                 &#39;Sentinel2&#39;   2015-present, 10 m resolution
+                 &#39;MODISAll&#39;    2000-present, 500 m, large areas
+
+  scale:         30  (Landsat/Sentinel-2, 30 m)
+                 10  (Sentinel-2 only, highest detail)
+                 500 (MODIS, continental scale)
+
+  thresholdWet:  25  (25% of years must be wet to count as wetland)
+  thresholdPersis: 75  (75%+ of years = Persistent)
+  nYear:         3-5  (years compared historic vs recent)</code></pre>
+<hr />
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li>WetlandMapper documentation: <strong>https://wetlandmapper.readthedocs.io</strong></li>
+<li>Singh &amp; Sinha (2022) — the wetland dynamics method: https://doi.org/10.1080/2150704X.2021.1980919</li>
+<li>Singh et al. (2022) — the WCT method: https://doi.org/10.1007/s10661-022-10541-7</li>
+<li>Google Earth Engine guides: <strong>https://developers.google.com/earth-engine/guides</strong></li>
+</ul>
+<hr />
+<p><em>WetlandMapper is free and open-source. Install it with:</em> <code>conda install -c conda-forge wetlandmapper</code></p>
+</main>
+
+<!-- BACK LINK -->
+<div class="post-footer">
+  <a class="back-link" href="../index.html#blog">← Back to all posts</a>
+</div>
+
+<!-- SITE FOOTER -->
+<footer>
+  <a href="../index.html">manudeo.github.io</a> &nbsp;·&nbsp; Dr. Manudeo Singh &nbsp;·&nbsp; Aberystwyth University
+</footer>
+
+</body>
+</html>
